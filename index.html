@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lời cảm ơn - 20/10</title>
+  <style>
+    :root{--bg:#fff0f6;--card:#fff;--accent:#ff6b9a;--muted:#6b6b6b}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,var(--bg),#fff);color:#222;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+    .card{width:100%;max-width:700px;background:var(--card);border-radius:20px;padding:36px;box-shadow:0 10px 30px rgba(0,0,0,0.08);position:relative;overflow:hidden;text-align:center}
+    .avatar{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#ffd3e2,#ffb3d1);display:flex;align-items:center;justify-content:center;font-size:42px;color:#fff;margin:0 auto 20px;box-shadow:0 6px 18px rgba(255,107,154,0.25)}
+    h1{margin:0;font-size:28px;color:var(--accent)}
+    p.lead{margin:10px 0 0;color:var(--muted)}
+    .message{margin-top:26px;font-size:18px;line-height:1.6}
+    footer{margin-top:22px;font-size:13px;color:var(--muted)}
+    canvas#confetti{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <canvas id="confetti"></canvas>
+    <div class="avatar">❤</div>
+    <h1>Cảm ơn em — 20/10</h1>
+    <p class="lead">Gửi tới người con gái đặc biệt nhất trong đời anh</p>
+
+    <div class="message">
+      Hôm nay là 20/10 — ngày tôn vinh phụ nữ. Anh cảm ơn em vì đã ở bên, chia sẻ mọi niềm vui nỗi buồn và làm cho cuộc sống anh ấm áp, hạnh phúc hơn mỗi ngày. Em là người lúc nào cũng ở bên anh, lắng nghe anh và mắng anh khi anh làm gì đó sai để anh tốt hơn. Anh chúc em luôn hạnh phúc, xinh đẹp và mãi là nụ cười của anh.
+    </div>
+
+    <footer>
+      <p1>Anh Yêu Em ❤️</p1>
+    </footer>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles=[];
+    function resize(){W=canvas.width=canvas.clientWidth;H=canvas.height=canvas.clientHeight}
+    window.addEventListener('resize', resize); resize();
+    function rand(min,max){return Math.random()*(max-min)+min}
+    function make(){
+      for(let i=0;i<150;i++){
+        particles.push({x:rand(0,W),y:rand(-H,0),vx:rand(-2,2),vy:rand(2,8),r:rand(4,9),life:rand(60,220),color:`hsl(${Math.floor(rand(0,360))} 80% 60%)`});
+      }
+    }
+    function step(){
+      ctx.clearRect(0,0,W,H);
+      particles.forEach((p,i)=>{
+        p.x+=p.vx; p.y+=p.vy; p.vy+=0.08; p.life--;
+        ctx.fillStyle=p.color;
+        ctx.fillRect(p.x,p.y,p.r, p.r*0.6);
+        if(p.y>H+20||p.life<0) particles.splice(i,1);
+      });
+    }
+    function burst(){
+      make();
+      let frames=0;
+      function loop(){
+        step();
+        frames++;
+        if(particles.length||frames<120){requestAnimationFrame(loop)}
+      }
+      loop();
+    }
+    // Tự động bắn confetti khi mở trang
+    window.addEventListener('load', burst);
+  </script>
+</body>
+</html>
